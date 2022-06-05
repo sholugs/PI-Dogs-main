@@ -8,13 +8,14 @@ const getApiInfo = async (_req, res, next) => {
         return {
             id: `${el.id}`,
             name: el.name,
-            image: el.image.url,
             temperament: el.temperament ? el.temperament : 'Friendly',
             heightMin: parseInt(el.height.metric.split(' - ')[0]) ? parseInt(el.height.metric.split(' - ')[0]) : 20,
             heightMax: parseInt(el.height.metric.split(' - ')[1]) ? parseInt(el.height.metric.split(' - ')[1]) : 40,
             weightMin: parseInt(el.weight.metric.split(' - ')[0]) ? parseInt(el.weight.metric.split(' - ')[0]) : 20,
             weightMax: parseInt(el.weight.metric.split(' - ')[1]) ? parseInt(el.weight.metric.split(' - ')[1]) : 40,
             life_span: el.life_span,
+            image: el.image.url ? el.image.url 
+            : `https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584341.jpg`,
         }
     })
     return apiData
@@ -59,7 +60,7 @@ const allInfo = async () => {
 //     const apiUrl = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)
 //     let apiData = apiUrl.data.map((el) => {
 //         return {
-//             id: el.id,
+//             id: `${el.id}`,
 //             name: el.name,
 //             // image: 
 //             heightMin: parseInt(el.height.metric.split(' - ')[0]) ? parseInt(el.height.metric.split(' - ')[0]) : 20,
@@ -68,7 +69,8 @@ const allInfo = async () => {
 //             weightMax: parseInt(el.weight.metric.split(' - ')[1]) ? parseInt(el.weight.metric.split(' - ')[1]) : 40,
 //             life_span: el.life_span,
 //             temperament: el.temperament ? el.temperament : 'Friendly',
-//             image: el.reference_image_id ? `https://cdn2.thedogapi.com/images/${el.reference_image_id}.jpg` : undefined
+//             image: el.reference_image_id ? `https://cdn2.thedogapi.com/images/${el.reference_image_id}.jpg` 
+//             :`https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584341.jpg`
 //     }
 // })
 // return apiData

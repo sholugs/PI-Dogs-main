@@ -45,7 +45,7 @@ export default function dogs(state = initialState, action){
         case SORT_NAME: 
         const myDogs = state.dogs;
             const sortedDogs = action.payload === 'Alpha' 
-            ? state.allDogs 
+            ? state.dogs 
             : action.payload === 'A-Z' 
             ? myDogs.sort((a, b) => a.name > b.name ? 1 : - 1) 
             : myDogs.sort((a, b) => a.name > b.name ? -1 : 1);
@@ -117,11 +117,15 @@ export default function dogs(state = initialState, action){
 
             case SORT_TEMPERAMENT:
                 let myTemperaments = state.dogs;
+
                 let selectedTemperament = state.temperament;
+
                 console.log(myTemperaments)
                 console.log(selectedTemperament)
+                
                 const sortedTemperament = myTemperaments.filter((el) => el.temperament.includes(action.payload));
                 console.log(sortedTemperament)
+
                 return {
                     ...state,
                     allDogs: sortedTemperament

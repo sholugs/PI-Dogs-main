@@ -7,7 +7,8 @@ const getId = async(req, res) => {
     let allId = await allInfo()
     // let apiName = await getApiName()
     // if(typeof id === 'string' && id.length > 15){
-    //     let dbId = await Dog.findByPk(id)
+    //     let dbId = await Dog.findByPk(id, {
+    //})
     //     res.status(200).send(dbId)
     // }
     // else {

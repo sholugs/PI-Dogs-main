@@ -5,25 +5,30 @@ const {allInfo, getApiName, getDbName, getDbInfo} = require('../controllers/Dogs
 const router = Router();
 
 router.get('/', async(req, res) =>{
-    let { name } = req.query;
+    try {
 
-    let all = await allInfo()
-    if (name){
-        name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+        let { name } = req.query;
 
-
-        let theName = allNames.filter(el => el.name.includes(name))
-
-        theName 
-        ? res.status(200).json(theName)
-        : res.status(404).json('no ta bro')
-        // return (await getApiInfo()).concat(await getDbInfo())
-
-        // all = all.filter(el => el.name.includes(name))
-        // res.status(200).json(all)
-
-    } if(!name) {
-        res.status(200).send(all);
+        if (name){
+            name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+            
+            let names = await allInfo()
+            
+            names = names.filter(el => el.name.includes(name))
+            
+            names !== undefined
+            ? res.status(200).json(names)
+            : res.status(404).json('no ta bro')
+            // return (await getApiInfo()).concat(await getDbInfo())
+            
+            // all = all.filter(el => el.name.includes(name))
+            // res.status(200).json(all)
+            
+        } else {
+            res.status(200).json(await allInfo());
+        }
+    } catch (err){
+        console.log(err)
     }
 
 });
@@ -35,7 +40,6 @@ router.get('/', async(req, res) =>{
 //         res.status(200).send
 //     }
 // })
-
 
 
 
