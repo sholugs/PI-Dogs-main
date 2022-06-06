@@ -2,14 +2,14 @@
 const { expect } = require('chai');
 const session = require('supertest-session');
 const app = require('../../src/app.js');
-const { Dog, conn } = require('../../src/db.js');
+const { Dog, Temperament, conn } = require('../../src/db.js');
 
 const agent = session(app);
 const dog = {
   name: 'Pug',
 };
 
-describe('Videogame routes', () => {
+describe('Dog routes', () => {
   before(() => conn.authenticate()
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
@@ -21,4 +21,21 @@ describe('Videogame routes', () => {
       agent.get('/dogs').expect(200)
     );
   });
+  describe('GET /dogs?name=', () => {
+    it('should get 200', () => {
+      agent.get('/dogs?name=Pug').expect(200)
+    })
+  });
+  describe('GET /dogs/:id', () => {
+    it('should get 200', () => {
+      agent.get('/dogs/1').expect(200)
+    });
+  });
+  describe('GET /dogs/:id', () => {
+    it('should get 200', () => {
+      agent.get('/temperament').expect(200)
+    });
+  })
 });
+
+

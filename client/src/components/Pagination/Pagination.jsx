@@ -1,6 +1,8 @@
 import React from 'react'
 import style from './pagination.module.css'
 function Pagination({dogs, dogsPage, pagination}) {
+
+    
     
     let pageNum = []
     

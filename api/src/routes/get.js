@@ -16,7 +16,7 @@ router.get('/', async(req, res) =>{
             
             names = names.filter(el => el.name.includes(name))
             
-            names !== undefined
+            names 
             ? res.status(200).json(names)
             : res.status(404).json('no ta bro')
             // return (await getApiInfo()).concat(await getDbInfo())
@@ -24,7 +24,8 @@ router.get('/', async(req, res) =>{
             // all = all.filter(el => el.name.includes(name))
             // res.status(200).json(all)
             
-        } else {
+        } 
+        if(name === undefined) {
             res.status(200).json(await allInfo());
         }
     } catch (err){

@@ -50,7 +50,7 @@ function Form() {
         e.preventDefault()
         dispatch(postDogs(input))
         alert('ta creado bro')
-        navigate('/dogs')
+        navigate(-1)
         setInput({
             name: '',
             image: '',

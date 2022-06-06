@@ -56,64 +56,65 @@ const allInfo = async () => {
 }
 
 
-// const getApiName = async (name) => {
-//     const apiUrl = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)
-//     let apiData = apiUrl.data.map((el) => {
-//         return {
-//             id: `${el.id}`,
-//             name: el.name,
-//             // image: 
-//             heightMin: parseInt(el.height.metric.split(' - ')[0]) ? parseInt(el.height.metric.split(' - ')[0]) : 20,
-//             heightMax: parseInt(el.height.metric.split(' - ')[1]) ? parseInt(el.height.metric.split(' - ')[1]) : 40,
-//             weightMin: parseInt(el.weight.metric.split(' - ')[0]) ? parseInt(el.weight.metric.split(' - ')[0]) : 20,
-//             weightMax: parseInt(el.weight.metric.split(' - ')[1]) ? parseInt(el.weight.metric.split(' - ')[1]) : 40,
-//             life_span: el.life_span,
-//             temperament: el.temperament ? el.temperament : 'Friendly',
-//             image: el.reference_image_id ? `https://cdn2.thedogapi.com/images/${el.reference_image_id}.jpg` 
-//             :`https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584341.jpg`
-//     }
-// })
-// return apiData
-// }
+const getApiName = async (name) => {
+    const apiUrl = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)
+    let apiData = apiUrl.data.map((el) => {
+        return {
+            id: `${el.id}`,
+            name: el.name,
+            // image: 
+            heightMin: parseInt(el.height.metric.split(' - ')[0]) ? parseInt(el.height.metric.split(' - ')[0]) : 20,
+            heightMax: parseInt(el.height.metric.split(' - ')[1]) ? parseInt(el.height.metric.split(' - ')[1]) : 40,
+            weightMin: parseInt(el.weight.metric.split(' - ')[0]) ? parseInt(el.weight.metric.split(' - ')[0]) : 20,
+            weightMax: parseInt(el.weight.metric.split(' - ')[1]) ? parseInt(el.weight.metric.split(' - ')[1]) : 40,
+            life_span: el.life_span,
+            temperament: el.temperament ? el.temperament : 'Friendly',
+            image: el.reference_image_id ? `https://cdn2.thedogapi.com/images/${el.reference_image_id}.jpg` 
+            :`https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584341.jpg`
+    }
+})
+return apiData
+}
 
-// const getDbName = async (name) => {
-//     let dbName = await Dog.findAll({
-//         where: {
-//             name: {
-//                 [Op.substring]: name,
-//             },
-//         },
-//         attributes: ['id', 'name', 'image', 'heightMin', 'heightMax', 'weightMin', 'weightMax', 'life_span'],
-//         include: {
-//             model: Temperament,
-//             attributes: ['name'],
-//             through: {
-//                 attributes: [],
-//                 raw: true
-//             },
-//         },
-//     }).then((response) => response.map(el => {
-//         return {
-//             id: el.id,
-//             name: el.name,
-//             image: el.image,
-//             temperament: el.temperament ? el.temperament : 'Friendly',
-//             heightMin: el.heightMin,
-//             heightMax: el.heightMax,
-//             weightMin: el.weightMin,
-//             weightMax: el.weightMax,
-//             life_span: el.life_span,
-//         }
-//     }));
+const getDbName = async (name) => {
+    let dbName = await Dog.findAll({
+        where: {
+            name: {
+                [Op.substring]: name,
+            },
+        },
+        attributes: ['id', 'name', 'image', 'heightMin', 'heightMax', 'weightMin', 'weightMax', 'life_span'],
+        include: {
+            model: Temperament,
+            attributes: ['name'],
+            through: {
+                attributes: [],
+                raw: true
+            },
+        },
+    }).then((response) => response.map(el => {
+        return {
+            id: el.id,
+            name: el.name,
+            image: el.image ? el.image 
+            : `https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584341.jpg`,
+            temperament: el.temperament ? el.temperament : 'Friendly',
+            heightMin: el.heightMin,
+            heightMax: el.heightMax,
+            weightMin: el.weightMin,
+            weightMax: el.weightMax,
+            life_span: el.life_span,
+        }
+    }));
 
-//         return dbName
-// }
+        return dbName
+}
 
 
 module.exports = {
     getApiInfo,
     getDbInfo,
     allInfo,
-    // getApiName,
-    // getDbName
+    getApiName,
+    getDbName
 }

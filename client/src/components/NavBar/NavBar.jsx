@@ -1,12 +1,14 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { sortName, sortTemperament, sortApiDb, orderWeightMin, getTemperament, filterBy, getDogs } from '../../redux/actions/actions'
 import style from './navbar.module.css'
 
-export default function NavBar({setOrder, setPage}) {
+export default function NavBar({setPage}) {
     let dispatch = useDispatch()
     
     let temperaments = useSelector(state => state.temperament)
+
+    const [order, setOrder] = useState('')
 
     function handleSortName(e){
         e.preventDefault()

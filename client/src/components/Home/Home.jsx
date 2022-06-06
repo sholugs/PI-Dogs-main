@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Card from '../Card/Card'
 import SearchBar from '../SearchBar/SearchBar'
 import NavBar from '../NavBar/NavBar'
@@ -12,10 +12,12 @@ import style from './home.module.css'
 function Home() {
     
     let dispatch = useDispatch()
+    const navigate = useNavigate()
+    
     let dogs = useSelector(state => state.allDogs)
     
-    const [order, setOrder] = useState('')
-    const [loading, setLoading] = useState(false)
+
+
     const [page, setPage] = useState(1)
     const [dogsPage, setDogsPage] = useState(8)
     
@@ -29,32 +31,24 @@ function Home() {
     }
 
     useEffect(() => {
-        // let mounted = true
         dispatch(getDogs())
-        // .then(() => {
-        //     if (mounted) {
-        //         setLoading(false)
-        //     }
-        // })
-        // return () => {
-        //     mounted = false
-        // }
+        dispatch(getTemperament())
     }, [dispatch])
     
-    useEffect(() => {
-        // const controller = new AbortController()
-        // const signal = controller.signal
-        // let mounted = true
-        dispatch(getTemperament())
-        // .then(() => {
-        //     if (mounted){
-        //         setLoading(false)
-        //     }
-        // })
-        // return () => {
-        //     mounted = false
-        // }
-    }, [dispatch])
+    // useEffect(() => {
+    //     // const controller = new AbortController()
+    //     // const signal = controller.signal
+    //     let mounted = true
+    //     dispatch(getTemperament())
+    //     .then(() => {
+    //         if (mounted){
+    //             setLoading(false)
+    //         }
+    //     })
+    //     return () => {
+    //         mounted = false
+    //     }
+    // }, [dispatch])
 
     return (
     <>
@@ -71,12 +65,11 @@ function Home() {
         </div>
         <div>
             <NavBar 
-            setOrder = {setOrder}
             setDogsPage = {setDogsPage}
             setPage = {setPage}
             />
         </div>
-        <div>
+        <div key={page} >
             <Pagination 
             pagination={pagination}
             dogs={dogs.length}
@@ -85,7 +78,7 @@ function Home() {
         </div>
         <div className={style.allCards} >
         {totalDogsPage?.map((el) => {
-            return <Link to={`/dogs/${el.id}`}>
+            return <section>
                 <Card 
                 key={el.id}
                 name = {el.name}
@@ -94,10 +87,10 @@ function Home() {
                 weightMax = {el.weightMax}
                 temperament = {el.temperament}
                 /> 
-        </Link>
-        })
-        
-        }
+                <button onClick={() => navigate(`/dogs/${el.id}`) }>Detail</button>
+                </section>
+            
+        })}
         </div>
         </div>
     </>

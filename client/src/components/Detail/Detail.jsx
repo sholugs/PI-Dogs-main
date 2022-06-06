@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import style from './detail.module.css'
 
 function Detail() {
     const [dog, setDog] = useState();
+    const navigate = useNavigate()
     
     const {id} = useParams()
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/Dog/${id}`)
+        axios.get(`http://localhost:3001/dog/${id}`)
         .then((response) => {
             setDog(response.data)
         })
@@ -22,7 +23,7 @@ function Detail() {
         {dog ? ( 
             <div className={style.all} >
                 <article>
-            <Link to={'/dogs'}><button className={style.btn} >volver</button></Link>
+            <button className={style.btn} onClick={() => navigate(-1)} >volver</button>
                 </article>
                 <div className={style.card}>
             <h2>{dog.name}</h2>

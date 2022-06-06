@@ -26,13 +26,15 @@ import axios from 'axios'
     export function getDogs (){
         return async function(dispatch){
             
-            dispatch(setLoading(true));
+            // dispatch(setLoading(true));
             try {
                 const res = await axios.get(DOGS_URL);
                 return dispatch({
                     type: GET_DOGS,
                     payload: res.data
-                }, dispatch(setLoading(false)));
+                }
+                // dispatch(setLoading(false))
+                );
             } catch(err){
                 console.log(err)
             }
@@ -41,13 +43,15 @@ import axios from 'axios'
 
     export function getName (name){
         return async function(dispatch){
-            dispatch(setLoading(true));
+            // dispatch(setLoading(true));
             const response = await fetch(DOGS_NAMES_URL + name)
             const res = await response.json();
             dispatch({
                 type: GET_DOGS,
                 payload: res
-            },dispatch(setLoading(false)));  
+            }
+            // dispatch(setLoading(false))
+            );  
         }
     }
 
@@ -64,12 +68,14 @@ import axios from 'axios'
 
     export function getTemperament (){
         return async function(dispatch){
-            dispatch(setLoading(true));
+            // dispatch(setLoading(true));
             const res = await axios.get(TEMPERAMENT_URL);
             return dispatch({
                 type: GET_TEMPERAMENT,
                 payload: res.data
-            }, dispatch(setLoading(false)));
+            } 
+            // dispatch(setLoading(false))
+            );
         }
     }
 
