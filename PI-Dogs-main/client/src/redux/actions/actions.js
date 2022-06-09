@@ -4,7 +4,7 @@ import {
     TEMPERAMENT_URL,
     GET_DOGS,
     ISLOADING,
-    // GET_DOG,
+    GET_DOG,
     GET_TEMPERAMENT,
     SORT_TEMPERAMENT,
     SORT_NAME,
@@ -55,16 +55,16 @@ import axios from 'axios'
         }
     }
 
-    // export function getId (id){
-    //     return async function(dispatch){
-    //         const response = await fetch(DOGS_URL + '/' + id)
-    //         const res = await response.json();
-    //         dispatch({
-    //             type: GET_DOG,
-    //             payload: res
-    //         })
-    //     }
-    // }
+    export function getId (id){
+        return async function(dispatch){
+            const response = await fetch(DOGS_URL + '/' + id)
+            const res = await response.json();
+            dispatch({
+                type: GET_DOG,
+                payload: res
+            })
+        }
+    }
 
     export function getTemperament (){
         return async function(dispatch){

@@ -6,8 +6,7 @@ import style from './searchbar.module.css'
 function SearchBar() {
     let dispatch = useDispatch()
     const [search, setSearch] = useState('')
-
-    // let dog = useSelector(state => state.allDogs)
+    // const [auto, setAuto] = useState()
 
 
     function onSubmit() {
@@ -16,15 +15,17 @@ function SearchBar() {
         }
     }
 
+
     function inputChange(e){
         setSearch(e.target.value)
+        // dispatch(getName(search))
     }
 
     return (
     <>
     <input onChange={(e) => inputChange(e)} 
     className={style.input}
-    type='text'
+    type='search'
     placeholder='dogs'
     value={search}
     ></input>

@@ -1,15 +1,11 @@
-import React, {useEffect, useState} from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { sortName, sortTemperament, sortApiDb, orderWeightMin, getDogs, getTemperament } from '../../redux/actions/actions'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import style from './navbar.module.css'
 
-export default function NavBar({setPage, handleSortName}) {
-    let dispatch = useDispatch()
+export default function NavBar({ handleSortName, handleOrderWeight, handleApiOrDb, handleSortTemperament}) {
     
     let temperaments = useSelector(state => state.temperament)
 
-    const [order, setOrder] = useState('')
 
     // useEffect(() => {
     //     dispatch(getDogs());
@@ -18,36 +14,6 @@ export default function NavBar({setPage, handleSortName}) {
     function handleAllDogs (){
         window.location.reload(false)
     }
-
-    
-
-    function handleOrderWeight(e) {
-        dispatch(orderWeightMin(e.target.value))
-        setOrder(e.target.value)
-        setPage(1)
-    }
-
-    function handleSortTemperament(e){
-        dispatch(sortTemperament(e.target.value))
-        setOrder(e.target.value)
-        setPage(1)
-    }
-
-    function handleApiOrDb(e){
-        dispatch(sortApiDb(e.target.value))
-        setOrder(e.target.value)
-        setPage(1)
-    }
-
-    // function handleSelect(e) {
-    //     e.preventDefault()
-    //     dispatch(filterBy(e.target.value));
-    // }
-    
-    // function handleSelected(e) {
-    //     dispatch(getDogs());
-    // }
-
 
     return (
     <>
@@ -65,9 +31,6 @@ export default function NavBar({setPage, handleSortName}) {
         <option value='weightMax'>max weight</option>
 
         </select>
-        <div>
-        <button onClick={handleAllDogs}>Charge Dogs</button>
-        </div>
 
     <select className={style.createSel} name='all' onChange={(e) => handleApiOrDb(e)} >
         <option value='all' >all</option>
@@ -85,6 +48,9 @@ export default function NavBar({setPage, handleSortName}) {
             < option key={el.id} value={el.name} > {el.name} </option>
             )}
     </datalist>
+        <div>
+        <button className={style.btn} onClick={handleAllDogs}>Charge Dogs</button>
+        </div>
             </div>
             </div>
     

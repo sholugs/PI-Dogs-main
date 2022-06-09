@@ -34,14 +34,6 @@ router.get('/', async(req, res) =>{
 
 });
 
-// router.get('/', async (req, res) => {
-//     const { name } = req.query;
-//     if (name){
-//         let apiNames = await getApiName(name)
-//         res.status(200).send
-//     }
-// })
-
 
 
 module.exports = router;

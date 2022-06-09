@@ -9,6 +9,7 @@ const getApiInfo = async (_req, res, next) => {
             id: `${el.id}`,
             name: el.name,
             temperament: el.temperament ? el.temperament : 'Friendly',
+            origin: el.origin,
             heightMin: parseInt(el.height.metric.split(' - ')[0]) ? parseInt(el.height.metric.split(' - ')[0]) : 20,
             heightMax: parseInt(el.height.metric.split(' - ')[1]) ? parseInt(el.height.metric.split(' - ')[1]) : 40,
             weightMin: parseInt(el.weight.metric.split(' - ')[0]) ? parseInt(el.weight.metric.split(' - ')[0]) : 20,
@@ -39,6 +40,7 @@ const getDbInfo = async () => {
             name: el.name,
             image: el.image,
             temperament: el.temperaments?.map(el => el.name).join(", "),
+            origin: el.origin,
             heightMin: el.heightMin,
             heightMax: el.heightMax,
             weightMin: el.weightMin,
@@ -76,45 +78,9 @@ const allInfo = async () => {
     return (await getApiInfo()).concat(await getDbInfo())
 }
 
-// const getDbName = async (name) => {
-//     let dbName = await Dog.findAll({
-//         where: {
-//             name: {
-//                 [Op.substring]: name,
-//             },
-//         },
-//         attributes: ['id', 'name', 'image', 'heightMin', 'heightMax', 'weightMin', 'weightMax', 'life_span'],
-//         include: {
-//             model: Temperament,
-//             attributes: ['name'],
-//             through: {
-//                 attributes: [],
-//                 raw: true
-//             },
-//         },
-//     }).then((response) => response.map(el => {
-//         return {
-//             id: el.id,
-//             name: el.name,
-//             image: el.image ? el.image 
-//             : `https://image.shutterstock.com/image-vector/picture-vector-icon-no-image-260nw-1732584341.jpg`,
-//             temperament: el.temperament,
-//             heightMin: el.heightMin,
-//             heightMax: el.heightMax,
-//             weightMin: el.weightMin,
-//             weightMax: el.weightMax,
-//             life_span: el.life_span,
-//         }
-//     }));
-
-//         return dbName
-// }
-
-
 module.exports = {
     getApiInfo,
     getDbInfo,
     allInfo,
     // getApiName,
-    // getDbName
 }

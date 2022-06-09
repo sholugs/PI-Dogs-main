@@ -2,7 +2,7 @@ import {
     GET_DOGS,
     GET_TEMPERAMENT,
     SORT_NAME,
-    // GET_DOG,
+    GET_DOG,
     SORT_TEMPERAMENT,
     API_OR_DB,
     ORDER_WEIGHT_MIN,
@@ -14,7 +14,7 @@ import {
 const initialState = {
     modifiedDogs: [],
     allDogs: [],
-    // detail: [],
+    detail: [],
     temperament: [],
 }
 
@@ -28,11 +28,12 @@ export default function dogs(state = initialState, action){
                 allDogs: action.payload,
             }
 
-        // case GET_DOG:
-        //     return {
-        //         ...state,
-        //         detail: action.payload
-        //     }
+        case GET_DOG:
+            return {
+                ...state,
+                detail: action.payload
+            }
+            
         
         case GET_TEMPERAMENT:
             // const dogTemperament = state.allDogs
@@ -43,33 +44,34 @@ export default function dogs(state = initialState, action){
             }
         
         case SORT_NAME: 
-        const myDogs = state.modifiedDogs;
+        const myDogs = state.allDogs;
             const sortedDogs = action.payload === 'A-Z' 
             ? myDogs.sort((a, b) => a.name.localeCompare(b.name)) 
             : myDogs.sort((a, b) => b.name.localeCompare(a.name));
             return{
                 ...state,
-                allDogs: sortedDogs,
+                modifiedDogs: sortedDogs,
             }
 
         case ORDER_WEIGHT_MIN:
             let weightDog;
             if (action.payload === 'weightMin'){
-                let minWeight = state.modifiedDogs.sort((a, b) => a.weightMin > b.weightMin ? 1 : -1)
+                let minWeight = state.allDogs.sort((a, b) => a.weightMin > b.weightMin ? 1 : -1)
                 weightDog = minWeight
             }
             if(action.payload === 'weightMax'){
-                let maxWeight = state.modifiedDogs.sort((a, b) => a.weightMax > b.weightMax ? -1 : 1)
+                let maxWeight = state.allDogs.sort((a, b) => a.weightMax > b.weightMax ? -1 : 1)
                 weightDog = maxWeight
             }
 
-            if(action.payload === 'all'){
-                let allWeight = state.modifiedDogs
-                weightDog = allWeight
-            }
+            // if(action.payload === 'all'){
+            //     let allWeight = state.modifiedDogs
+            //     weightDog = allWeight
+            // }
+            
             return {
                 ...state,
-                allDogs: weightDog
+                modifiedogs: weightDog
             }
 
             // case ORDER_WEIGHT_MAX: 
@@ -90,8 +92,8 @@ export default function dogs(state = initialState, action){
                 // const sortedApiDB = action.payload === 'all' 
                 // ? state.dogs 
                 // : action.payload === 'created' 
-                // ? apiOrDb.filter((el) => typeof el.id === 'string' && el.id.length > 10) 
-                // : apiOrDb.filter((el) => typeof el.id === 'number' && el.id.length < 4)
+                // ? apiOrDb.filter((el) => el.id.length > 10) 
+                // : apiOrDb.filter((el) => el.id.length < 4)
                 // console.log(apiOrDb)
                 // return {
                 //     ...state,
@@ -138,11 +140,11 @@ export default function dogs(state = initialState, action){
                     ...state,
                 }
 
-                case "CLEAN_DOG":
-      return {
-        ...state,
-        loader: true,
-      };
+    //             case "CLEAN_DOG":
+    //                 return {
+    //     ...state,
+    //     loader: true,
+    //   };
 
         default:
             return {

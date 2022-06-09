@@ -5,7 +5,6 @@ const {allInfo, getApiName} = require('../controllers/Dogs');
 const getId = async(req, res) => {
     const { id } = req.params;
     let allId = await allInfo()
-    // let apiName = await getApiName()
     // if(typeof id === 'string' && id.length > 15){
     //     let dbId = await Dog.findByPk(id, {
     //})
@@ -16,10 +15,7 @@ const getId = async(req, res) => {
         if(filterId){
             res.status(200).json(filterId)
         }
-        // let filterName = apiName.find(el => el.id === id)
-        // if(filterName){
-        //     res.status(200).json(filterName)
-        // }
+        
 
         else {
             res.status(404).send('no existe bro')

@@ -8,22 +8,24 @@ function Pagination({dogs, dogsPage, pagination, page}) {
         pageNum.push(i)
     }
 
+
+
     return (
     <>
     <nav>
         <ul className={style.pagination} >
-            {pageNum.map(n => (
-                // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                <a className={style.a} key={n} onClick={() => pagination(n)}>{n}</a>
-                
-                ))}
                 {page > 1 ? (
-                    <li onClick={() => pagination(page - 1)}>
-                        <button>Prev</button></li>
+                    <li  onClick={() => pagination(page - 1)}>
+                        <button className={style.btn}>Prev</button></li>
                 ) : null}
+                {pageNum.map(n => (
+                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                    <a className={style.a} key={n} onClick={() => pagination(n)}>{n}</a>
+                    
+                    ))}
             {page < dogs / dogsPage ? (
-                <li onClick={() => pagination(page + 1)}>
-                    <button>Next</button>
+                <li  onClick={() => pagination(page + 1)}>
+                    <button className={style.btn} >Next</button>
                 </li>
             ) : null}
         </ul>

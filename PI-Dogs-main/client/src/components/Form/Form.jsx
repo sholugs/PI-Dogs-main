@@ -8,7 +8,8 @@ import style from './form.module.css'
 
 function Form() {
     const dispatch = useDispatch()
-    const temperament = useSelector(state => state.temperament)
+    const {temperament, allDogs} = useSelector(state => state)
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -32,43 +33,62 @@ function Form() {
 
     
     function handleChange(e){
-        const value = e.target.value
-        const name = e.target.name
-        setInput({
-            ...input,
-            [name]: value
-        })
-        setErrors(validate({
-            ...input,
-            [e.target.name] : e.target.value,
-        })
-        )
+        let value = e.target.value
+        let name = e.target.name
+        const allNames = allDogs?.map(e=> e.name)
+        console.log(allNames)
+        if(!allNames.includes(e.target.value)){
+            setInput({
+                ...input,
+                [name]: value
+            })
+            setErrors(validate({
+                ...input,
+                [e.target.name] : e.target.value,
+            })
+            )
+        }
     }
-
+    
     async function handleSelect(e){
+        if(!input.temperament.includes(e.target.value)){
+            setInput({
+                ...input,
+                temperament: [...input.temperament, e.target.value],
+            })
+            setErrors(validate({
+                ...input,
+                [e.target.name] : e.target.value,
+            })
+            )
+        }
+    }
+    
+    function handleDeleteTemperaments(e) {
         setInput({
             ...input,
-            temperament: [...input.temperament, e.target.value]
-        })
+            temperament: input.temperament.filter((el) => el !== e),
+        });
     }
-
     async function handleSubmit (e) {
         e.preventDefault()
         if(Object.values(errors).length === 0){
-
             dispatch(postDogs(input))
-            alert('ta creado bro')
+            alert('Dog created succesfully')
             navigate(-1)
         } else {
-            alert('no metiste data bro')
+            alert('Please, complete all the data that is required')
         }
     }
 
     return (
     <>
+    <div className={style.img}>
+        <div className={style.containerForm}>
+
     <form className={style.form} onSubmit={(e) => handleSubmit(e) }>
     <Link to= '/dogs' ><button className={style.backBtn} >Volver</button></Link>
-        <h1>Cree su perro</h1>
+        <h1 className={style.h1}>Cree su perro</h1>
             {/* id: 
                 name: 
                 heightMin:
@@ -79,7 +99,7 @@ function Form() {
                 image: */}
         
         
-        <section >
+        <section className={style.container}>
 
         <div>
             <label>name:</label>
@@ -106,9 +126,9 @@ function Form() {
             onChange = {(e) => handleChange(e)}
             // required
             />
-            {/* <span className={style.validation}>
+            <span className={style.validation}>
                 {errors.image && <p>{errors.image}</p>}
-            </span> */}
+            </span>
             </div>
             
             <div>
@@ -135,7 +155,7 @@ function Form() {
             required
             />
             <span className={style.validation}>
-                {errors.weightMax && <p>{errors.weightMax}</p>}
+                {errors.heightMax && <p>{errors.heightMax}</p>}
             </span>
             </div>
 
@@ -188,13 +208,21 @@ function Form() {
                 <option className={style.op} value={el.name}>{el.name}</option>
                 ))}
                     </select>
-                    {/* <ul className={style.list} ><li>{input.temperament.map(el => el + ' ,')}</li></ul>  */}
+                    <ul className={style.list} ><li> {(input.temperament.map(el => el + ' ,')
                     
+                    )}</li></ul>
                     <button className={style.create} type='submit' 
                             onSubmit={(e) => handleSubmit(e)}
-                    >Crear perro</button>
+                            >Crear perro</button>
             </div>
     </form>
+    {input.temperament.map((el) => (
+        <div>
+            <button onClick={(() => handleDeleteTemperaments(el))}>{el}</button>
+        </div>
+    ))}
+            </div>
+    </div>
 
     </>
     )
@@ -209,6 +237,7 @@ function validate (input) {
     }
 
     if(!input.heightMin){
+
         errors.heightMin = 'Minimun height is required'
     } else if(!/^([0-9])*$/.test(input.heightMin)){
         errors.heightMin = 'Minimun height should be a number'
@@ -221,17 +250,22 @@ function validate (input) {
     } else if (!/^([0-9])*$/.test(input.heightMax)){
         errors.heightMax = 'Maximum height should be a number'
     } else if (input.heightMax > 100) {
-        errors.weightMax = 'Maximun height can not be superior to 100 centimeters'
+        errors.heightMax = 'Maximun height can not be superior to 100 centimeters'
     }
+
+    else if(input.heightMin > input.heightMax || input.heightMin === input.heightMax){
+        errors.heightMin = 'Minimum height should be lower than Maximum height'
+    }
+
 
     if(!input.weightMin){
         errors.weightMin = 'Minimum weight is required'
     } else if(!/^([0-9])*$/.test(input.weightMin)){
         errors.weightMin = 'Minimum weight should be a number'
     } else if(input.weightMin < 1 || input.weightMin > 50) {
-        errors.weightMin = 'Minimun height should be between 1 and 50 kilograms'
-    }
-
+        errors.weightMin = 'Minimum weight should be between 1 and 50 kilograms'
+    } 
+    
     if(!input.weightMax){
         errors.weightMax = 'Maximum weight is required'
     } else if(!/^([0-9])*$/.test(input.weightMax)){
@@ -239,14 +273,27 @@ function validate (input) {
     } else if(input.weightMax > 100){
         errors.weightMax = 'Maximum weight can not be superior to 100 kilograms'
     }
+    
+    else if(input.weightMin > input.weightMax || input.weightMin === input.weightMax){
+        errors.weightMin = 'Minimum weight should be lower than Maximum'
+    }
+
 
     if(!input.life_span){
         errors.life_span = 'Life span is required'
     } else if(!/^([0-9])*$/.test(input.life_span)){
         errors.life_span = 'Life span should be a number'
     } else if(input.life_span < 1 || input.life_span > 20){
-        errors.life_span = 'Minimum life span hould be between 1 and 20 years'
+        errors.life_span = ' Life span hould be between 1 and 20 years'
     }
+
+    if(!input.temperament){
+        errors.temperament = 'temperament is required'
+    }
+    if(input.temperament < 3){
+        errors.temperament = 'temperament should be higher than 3'
+    }
+
     return errors
 }
 
